@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     DB_NAME: str
     DATABASE_URL: str
 
+    TRAVELPAYOUTS_TOKEN: str
+
     model_config = SettingsConfigDict(env_file=ENV_PATH, extra="ignore")
 
 settings = Settings()

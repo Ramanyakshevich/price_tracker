@@ -17,6 +17,7 @@ class TriggerCreate(BaseModel):
     city_from: str
     city_to: str
     target_price: int
+    depart_date: Optional[str] = None
 
 class TriggerResponse(BaseModel):
     id: int
@@ -24,5 +25,6 @@ class TriggerResponse(BaseModel):
     city_from: str
     city_to: str
     target_price: int
+    depart_date: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)

@@ -32,7 +32,8 @@ async def create_trigger(session: AsyncSession, trigger_data: TriggerCreate) -> 
         user_id = user.id,
         city_from = trigger_data.city_from,
         city_to = trigger_data.city_to,
-        target_price = trigger_data.target_price
+        target_price = trigger_data.target_price,
+        depart_date = trigger_data.depart_date
     )
     session.add(new_trigger)
     await session.commit()

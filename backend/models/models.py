@@ -18,4 +18,5 @@ class TrackedItem(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     city_from: Mapped[str] = mapped_column(String(50))
     city_to: Mapped[str] = mapped_column(String(50))
+    depart_date: Mapped[str | None] = mapped_column(String(20), nullable=True)
     target_price: Mapped[int] = mapped_column()
