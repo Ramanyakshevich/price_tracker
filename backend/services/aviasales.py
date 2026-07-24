@@ -3,18 +3,20 @@ import aiohttp
 from typing import Optional
 from core.config import settings
 
-AVIASALES_API_URL = "https://api.travelpayouts.com/v1/prices/cheap"
+AVIASALES_API_URL = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
 
 async def get_cheapest_ticket(city_from: str, city_to: str, depart_date: Optional[str] = None) -> Optional[int]:
     params = {
         "origin": city_from.upper(),
         "destination": city_to.upper(),
         "currency": "usd",
-        "token": settings.TRAVELPAYOUTS_TOKEN
+        "token": settings.TRAVELPAYOUTS_TOKEN,
+        "direct": "true",
+        "limit": 10
     }
 
     if depart_date:
-        params["depart_date"] = depart_date
+        params["departure_at"] = depart_date
 
     try:
         ssl_context = ssl.create_default_context()
@@ -31,15 +33,7 @@ async def get_cheapest_ticket(city_from: str, city_to: str, depart_date: Optiona
                 if not data.get("success") or not data.get("data"):
                     return None
 
-                destination_data = data["data"].get(city_to.upper())
-
-                if not destination_data and data["data"]:
-                    destination_data = list(data["data"].values())[0]
-
-                if not destination_data:
-                    return None
-
-                prices = [ticket["price"] for ticket in destination_data.values()]
+                prices = [item["price"] for item in data["data"] if "price" in item]
                 return min(prices) if prices else None
 
     except Exception as e:
