@@ -28,7 +28,7 @@ class TriggerCreate(BaseModel):
             raise ValueError(f"Code '{value}' is invalid. Expected 3 letters (e. g. WAW, FCO)")
         return value
 
-    @field_validator(depart_date)
+    @field_validator("depart_date")
     @classmethod
     def validate_date(cls, value:Optional[str]) -> Optional[str]:
         if value is None:
@@ -51,3 +51,15 @@ class TriggerResponse(BaseModel):
     depart_date: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+class LoginRequest(BaseModel):
+    tg_id: int
+
+class Token(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+
+class TokenRefresh(BaseModel):
+    refresh_token: str
+
